@@ -1,7 +1,6 @@
-using DronsTeam.Resources;
 using UnityEngine;
 
-namespace DefaultNamespace
+namespace DronsTeam.Resources
 {
     public class Loot : MonoBehaviour
     {
