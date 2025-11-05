@@ -9,6 +9,8 @@ namespace DronsTeam.Config
     {
         [SerializeField] private List<FractionData> _fractionConfigs;
 
+        public List<FractionData> GetAllFractionsData() => _fractionConfigs;
+
         public FractionData GetFractionData(int id)
         {
             var fractionConfig = _fractionConfigs.Find(x => x.id == id);
