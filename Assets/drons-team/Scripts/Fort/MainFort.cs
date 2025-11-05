@@ -1,3 +1,4 @@
+using DronsTeam.Config;
 using UnityEngine;
 
 namespace DronsTeam.Fort
@@ -8,10 +9,12 @@ namespace DronsTeam.Fort
         
         private FortFractionHandler _fractionHandler;
         
-        public void Initialize(int id, Color fractionColor)
+        public void Initialize(FractionData data)
         {
-            _fractionHandler = new FortFractionHandler(id);
-            _meshHandler.Initialize(fractionColor);
+            _fractionHandler = new FortFractionHandler(data.id);
+            _meshHandler.Initialize(data.fractionColor);
+
+            transform.position = data.fractionPos;
         }
     }
 }

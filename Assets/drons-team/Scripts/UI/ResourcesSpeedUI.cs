@@ -16,7 +16,7 @@ namespace DronsTeam.UI
 
         private void OnInputChange(string newValueString)
         {
-            if (int.TryParse(newValueString, out var newValue))
+            if (int.TryParse(newValueString, out var newValue) && newValue > 0)
             {
                 EventBus.Publish(new ResourceSpawnRateChangedEvent(newValue));   
             }

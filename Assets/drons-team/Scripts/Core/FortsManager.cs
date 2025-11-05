@@ -1,16 +1,18 @@
+using System;
 using DronsTeam.Config;
 using DronsTeam.Fort;
 using DronsTeam.Tools;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace DronsTeam.Core
 {
-    public class FortSpawner
+    public class FortsManager : IDisposable
     {
         private readonly FractionConfig _fractionConfig;
         private readonly AddressablesLoader _addressablesLoader;
 
-        public FortSpawner(FractionConfig fractionConfig, AddressablesLoader addressablesLoader)
+        public FortsManager(FractionConfig fractionConfig, AddressablesLoader addressablesLoader)
         {
             _fractionConfig = fractionConfig;
             _addressablesLoader = addressablesLoader;
@@ -29,8 +31,12 @@ namespace DronsTeam.Core
             var fortPrefab = _addressablesLoader.LoadImmediate<GameObject>(AddressablesHelper.FORT_KEY);
             var mainFort = Object.Instantiate(fortPrefab).GetComponent<MainFort>();
             
-            mainFort.transform.position = data.fractionPos;
-            mainFort.Initialize(data.id, data.fractionColor);
+            mainFort.Initialize(data);
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

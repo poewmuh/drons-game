@@ -17,23 +17,29 @@ namespace DronsTeam.Boot
         [SerializeField] private SettingsUIManager _settingsUIManager;
         
         private AddressablesLoader _addressablesLoader;
-        private FortSpawner _fortSpawner;
+        private FortsManager _fortsManager;
+        private ResourceManager _resourceManager;
 
         private void Awake()
         {
             _addressablesLoader = new AddressablesLoader();
-            _fortSpawner = new FortSpawner(_fractionConfig, _addressablesLoader);
+            _fortsManager = new FortsManager(_fractionConfig, _addressablesLoader);
+            _resourceManager = new ResourceManager(_resourcesConfig, _addressablesLoader);
         }
 
         private void Start()
         {
+            _fortsManager.Initialize();
+            _resourceManager.Initialize();
+            
             _settingsUIManager.Initialize(_dronsConfig, _resourcesConfig);
-            _fortSpawner.Initialize();
         }
 
         private void OnDestroy()
         {
             _addressablesLoader.Dispose();
+            _fortsManager.Dispose();
+            _resourceManager.Dispose();
         }
     }
 }
