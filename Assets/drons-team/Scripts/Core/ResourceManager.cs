@@ -95,6 +95,16 @@ namespace DronsTeam.Core
             SpawnLootAfterDelay(_tokenSource.Token).Forget();
         }
 
+        public List<Loot> GetActiveLoot()
+        {
+            return _activeLoot;
+        }
+
+        public void ReleaseLoot(Loot loot)
+        {
+            _lootPool.Release(loot);
+        }
+
         public void Dispose()
         {
             _tokenSource?.Cancel();

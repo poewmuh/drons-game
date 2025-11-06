@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 390b115edbf7d684f890a58cf10c2958
+    m_Address: Drone
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e3123645bf784764aa3ac02ebb9a0109
     m_Address: Resource
     m_ReadOnly: 0

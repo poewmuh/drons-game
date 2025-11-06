@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ResourcesConfig
   m_EditorClassIdentifier: 
   _spawnInterval: 1
-  _resourcesPerSpawn: 1
+  _resourcesPerSpawn: 2
   _spawnCenter: {x: 0, y: 0, z: 0}
-  _minSpawnRadius: {x: -40, y: 0, z: -40}
-  _maxSpawnRadius: {x: 40, y: 0, z: 40}
+  _minSpawnRadius: {x: -30, y: -20, z: -30}
+  _maxSpawnRadius: {x: 30, y: 20, z: 30}

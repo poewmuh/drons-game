@@ -15,24 +15,42 @@ namespace DronsTeam.Boot
         [SerializeField] private ResourcesConfig _resourcesConfig;
         [Header("Links")]
         [SerializeField] private SettingsUIManager _settingsUIManager;
-        
+        [SerializeField] private TeamResourceUI _teamResourceUI;
+
         private AddressablesLoader _addressablesLoader;
         private FortsManager _fortsManager;
         private ResourceManager _resourceManager;
+        private DroneManager _droneManager;
+        private TeamResourceTracker _teamResourceTracker;
 
         private void Awake()
         {
             _addressablesLoader = new AddressablesLoader();
             _fortsManager = new FortsManager(_fractionConfig, _addressablesLoader);
             _resourceManager = new ResourceManager(_resourcesConfig, _addressablesLoader);
+            _droneManager = new DroneManager(_dronsConfig, _addressablesLoader, _fortsManager, _resourceManager);
+            _teamResourceTracker = new TeamResourceTracker();
         }
 
         private void Start()
         {
             _fortsManager.Initialize();
+
+            var allForts = _fortsManager.GetAllForts();
+            foreach (var fort in allForts)
+            {
+                _teamResourceTracker.RegisterTeam(fort.FractionId);
+            }
+
             _resourceManager.Initialize();
-            
+            _droneManager.Initialize();
+
             _settingsUIManager.Initialize(_dronsConfig, _resourcesConfig);
+
+            if (_teamResourceUI != null)
+            {
+                _teamResourceUI.Initialize(_teamResourceTracker);
+            }
         }
 
         private void OnDestroy()
@@ -40,6 +58,8 @@ namespace DronsTeam.Boot
             _addressablesLoader.Dispose();
             _fortsManager.Dispose();
             _resourceManager.Dispose();
+            _droneManager.Dispose();
+            _teamResourceTracker.Dispose();
         }
     }
 }
