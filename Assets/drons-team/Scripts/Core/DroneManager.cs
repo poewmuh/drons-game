@@ -9,16 +9,18 @@ namespace DronsTeam.Core
     {
         private readonly FortsManager _fortsManager;
         private readonly ResourceManager _resourceManager;
+        private readonly VFXManager _vfxManager;
         private readonly DroneSpawner _spawner;
         private readonly DroneAvoidanceService _avoidanceService;
 
         private float _currentSpeed;
 
         public DroneManager(DronsConfig config, AddressablesLoader loader, FortsManager fortsManager,
-            ResourceManager resourceManager)
+            ResourceManager resourceManager, VFXManager vfxManager)
         {
             _fortsManager = fortsManager;
             _resourceManager = resourceManager;
+            _vfxManager = vfxManager;
 
             _currentSpeed = config.DronsSpeed * 10;
 
@@ -35,7 +37,7 @@ namespace DronsTeam.Core
             _spawner.Initialize();
 
             var forts = _fortsManager.GetAllForts();
-            _spawner.SpawnDronesForForts(forts, _avoidanceService, _resourceManager, _currentSpeed);
+            _spawner.SpawnDronesForForts(forts, _avoidanceService, _resourceManager, _vfxManager, _currentSpeed);
         }
 
         private void OnDroneCountChanged(DroneCountChangedEvent evt)
@@ -49,7 +51,7 @@ namespace DronsTeam.Core
             if (evt.NewCount > currentPerFaction)
             {
                 var toAddPerFaction = evt.NewCount - currentPerFaction;
-                _spawner.AddDronesForForts(forts, toAddPerFaction, _avoidanceService, _resourceManager, _currentSpeed);
+                _spawner.AddDronesForForts(forts, toAddPerFaction, _avoidanceService, _resourceManager, _vfxManager, _currentSpeed);
             }
             else if (evt.NewCount < currentPerFaction)
             {

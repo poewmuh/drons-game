@@ -20,6 +20,7 @@ namespace DronsTeam.Boot
         private AddressablesLoader _addressablesLoader;
         private FortsManager _fortsManager;
         private ResourceManager _resourceManager;
+        private VFXManager _vfxManager;
         private DroneManager _droneManager;
         private TeamResourceTracker _teamResourceTracker;
 
@@ -28,7 +29,8 @@ namespace DronsTeam.Boot
             _addressablesLoader = new AddressablesLoader();
             _fortsManager = new FortsManager(_fractionConfig, _addressablesLoader);
             _resourceManager = new ResourceManager(_resourcesConfig, _addressablesLoader);
-            _droneManager = new DroneManager(_dronsConfig, _addressablesLoader, _fortsManager, _resourceManager);
+            _vfxManager = new VFXManager(_addressablesLoader);
+            _droneManager = new DroneManager(_dronsConfig, _addressablesLoader, _fortsManager, _resourceManager, _vfxManager);
             _teamResourceTracker = new TeamResourceTracker();
         }
 
@@ -43,6 +45,7 @@ namespace DronsTeam.Boot
             }
 
             _resourceManager.Initialize();
+            _vfxManager.Initialize();
             _droneManager.Initialize();
 
             _settingsUIManager.Initialize(_dronsConfig, _resourcesConfig);
@@ -58,6 +61,7 @@ namespace DronsTeam.Boot
             _addressablesLoader.Dispose();
             _fortsManager.Dispose();
             _resourceManager.Dispose();
+            _vfxManager.Dispose();
             _droneManager.Dispose();
             _teamResourceTracker.Dispose();
         }

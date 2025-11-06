@@ -13,6 +13,7 @@ namespace DronsTeam.Drones
         public Rigidbody Rigidbody { get; }
         public DroneAvoidanceService AvoidanceService { get; }
         public ResourceManager ResourceManager { get; }
+        public VFXManager VFXManager { get; }
         public DroneStateMachine StateMachine { get; set; }
         public float Speed { get; set; }
         public float CollectionTime { get; }
@@ -21,7 +22,8 @@ namespace DronsTeam.Drones
         public float CollectionTimer { get; set; }
 
         public DroneStateContext(Drone drone, MainFort homeFort, Transform transform, Rigidbody rigidbody,
-            DroneAvoidanceService avoidanceService, ResourceManager resourceManager, float speed, float collectionTime)
+            DroneAvoidanceService avoidanceService, ResourceManager resourceManager, VFXManager vfxManager,
+            float speed, float collectionTime)
         {
             Drone = drone;
             HomeFort = homeFort;
@@ -29,6 +31,7 @@ namespace DronsTeam.Drones
             Rigidbody = rigidbody;
             AvoidanceService = avoidanceService;
             ResourceManager = resourceManager;
+            VFXManager = vfxManager;
             Speed = speed;
             CollectionTime = collectionTime;
         }

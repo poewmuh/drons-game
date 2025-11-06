@@ -16,8 +16,9 @@ namespace DronsTeam.Drones.States
             _context.Drone.ClearPath();
 
             EventBus.Publish(new ResourceCollectedEvent(_context.Drone.FractionId));
+            
+            _context.VFXManager.PlayDeliveryEffect(_context.HomeFort.DepositPoint);
 
-            // TODO: Trigger visual effects (particles, flash, scale)
             _context.StateMachine.ChangeState(DroneStateType.SearchingResource);
         }
 

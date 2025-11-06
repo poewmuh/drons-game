@@ -46,7 +46,7 @@ namespace DronsTeam.Core
         }
 
         public void SpawnDronesForForts(List<MainFort> forts, DroneAvoidanceService avoidanceService,
-            ResourceManager resourceManager, float speed)
+            ResourceManager resourceManager, VFXManager vfxManager, float speed)
         {
             _avoidanceService = avoidanceService;
 
@@ -55,20 +55,20 @@ namespace DronsTeam.Core
                 for (int i = 0; i < _currentDroneCount; i++)
                 {
                     var drone = _dronePool.Get();
-                    InitializeDrone(drone, fort, avoidanceService, resourceManager, speed);
+                    InitializeDrone(drone, fort, avoidanceService, resourceManager, vfxManager, speed);
                 }
             }
         }
 
         public void AddDronesForForts(List<MainFort> forts, int count, DroneAvoidanceService avoidanceService,
-            ResourceManager resourceManager, float speed)
+            ResourceManager resourceManager, VFXManager vfxManager, float speed)
         {
             foreach (var fort in forts)
             {
                 for (int i = 0; i < count; i++)
                 {
                     var drone = _dronePool.Get();
-                    InitializeDrone(drone, fort, avoidanceService, resourceManager, speed);
+                    InitializeDrone(drone, fort, avoidanceService, resourceManager, vfxManager, speed);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace DronsTeam.Core
         }
 
         private void InitializeDrone(Drone drone, MainFort homeFort, DroneAvoidanceService avoidanceService,
-            ResourceManager resourceManager, float speed)
+            ResourceManager resourceManager, VFXManager vfxManager, float speed)
         {
             var context = new DroneStateContext(
                 drone,
@@ -99,6 +99,7 @@ namespace DronsTeam.Core
                 drone.Rigidbody,
                 avoidanceService,
                 resourceManager,
+                vfxManager,
                 speed,
                 _config.CollectionTime
             );
