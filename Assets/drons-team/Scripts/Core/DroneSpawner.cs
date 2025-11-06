@@ -46,7 +46,7 @@ namespace DronsTeam.Core
         }
 
         public void SpawnDronesForForts(List<MainFort> forts, DroneAvoidanceService avoidanceService,
-            ResourceManager resourceManager, VFXManager vfxManager, float speed)
+            ResourceManager resourceManager, VFXManager vfxManager, float speed, bool pathVisualizationEnabled)
         {
             _avoidanceService = avoidanceService;
 
@@ -55,20 +55,20 @@ namespace DronsTeam.Core
                 for (int i = 0; i < _currentDroneCount; i++)
                 {
                     var drone = _dronePool.Get();
-                    InitializeDrone(drone, fort, avoidanceService, resourceManager, vfxManager, speed);
+                    InitializeDrone(drone, fort, avoidanceService, resourceManager, vfxManager, speed, pathVisualizationEnabled);
                 }
             }
         }
 
         public void AddDronesForForts(List<MainFort> forts, int count, DroneAvoidanceService avoidanceService,
-            ResourceManager resourceManager, VFXManager vfxManager, float speed)
+            ResourceManager resourceManager, VFXManager vfxManager, float speed, bool pathVisualizationEnabled)
         {
             foreach (var fort in forts)
             {
                 for (int i = 0; i < count; i++)
                 {
                     var drone = _dronePool.Get();
-                    InitializeDrone(drone, fort, avoidanceService, resourceManager, vfxManager, speed);
+                    InitializeDrone(drone, fort, avoidanceService, resourceManager, vfxManager, speed, pathVisualizationEnabled);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace DronsTeam.Core
         }
 
         private void InitializeDrone(Drone drone, MainFort homeFort, DroneAvoidanceService avoidanceService,
-            ResourceManager resourceManager, VFXManager vfxManager, float speed)
+            ResourceManager resourceManager, VFXManager vfxManager, float speed, bool pathVisualizationEnabled)
         {
             var context = new DroneStateContext(
                 drone,
@@ -108,7 +108,7 @@ namespace DronsTeam.Core
             context.StateMachine = stateMachine;
 
             drone.Initialize(homeFort, stateMachine, _config.DebugPathColor);
-            drone.SetDebugPathEnabled(_config.DebugPath);
+            drone.SetDebugPathEnabled(pathVisualizationEnabled);
 
             stateMachine.ChangeState(DroneStateType.SearchingResource);
         }
@@ -126,6 +126,7 @@ namespace DronsTeam.Core
 
         private void OnReleaseDrone(Drone drone)
         {
+            drone.ReleaseTargetResource();
             drone.gameObject.SetActive(false);
             _activeDrones.Remove(drone);
             _avoidanceService?.ClearCache(drone);

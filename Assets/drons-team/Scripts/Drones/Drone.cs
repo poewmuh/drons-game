@@ -18,8 +18,9 @@ namespace DronsTeam.Drones
         {
             _homeFort = homeFort;
             _stateMachine = stateMachine;
-
+            
             transform.position = homeFort.SpawnPoint;
+            _rigidbody.position = homeFort.SpawnPoint;
 
             SetupLineRenderer(debugPathColor);
         }
@@ -58,6 +59,16 @@ namespace DronsTeam.Drones
         public void ClearPath()
         {
             _lineRenderer.positionCount = 0;
+        }
+
+        public void ReleaseTargetResource()
+        {
+            var context = _stateMachine.GetContext();
+            if (context.TargetLoot != null)
+            { 
+                context.TargetLoot.ReleaseReservation(); 
+                context.TargetLoot = null;
+            }
         }
 
         private void Update()

@@ -33,7 +33,7 @@ namespace DronsTeam.Drones.States
 
             var newPos = currentPos + direction * _context.Speed * Time.deltaTime;
             _context.Rigidbody.MovePosition(newPos);
-            _context.Drone.UpdatePath(currentPos, targetPos);
+            _context.Drone.UpdatePath(newPos, targetPos);
 
             if (Vector3.Distance(currentPos, targetPos) < 0.5f)
             {

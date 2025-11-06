@@ -14,6 +14,7 @@ namespace DronsTeam.Core
         private readonly DroneAvoidanceService _avoidanceService;
 
         private float _currentSpeed;
+        private bool _pathVisualizationEnabled;
 
         public DroneManager(DronsConfig config, AddressablesLoader loader, FortsManager fortsManager,
             ResourceManager resourceManager, VFXManager vfxManager)
@@ -23,6 +24,7 @@ namespace DronsTeam.Core
             _vfxManager = vfxManager;
 
             _currentSpeed = config.DronsSpeed * 10;
+            _pathVisualizationEnabled = config.DebugPath;
 
             _spawner = new DroneSpawner(config, loader);
             _avoidanceService = new DroneAvoidanceService(_spawner.ActiveDrones);
@@ -37,7 +39,7 @@ namespace DronsTeam.Core
             _spawner.Initialize();
 
             var forts = _fortsManager.GetAllForts();
-            _spawner.SpawnDronesForForts(forts, _avoidanceService, _resourceManager, _vfxManager, _currentSpeed);
+            _spawner.SpawnDronesForForts(forts, _avoidanceService, _resourceManager, _vfxManager, _currentSpeed, _pathVisualizationEnabled);
         }
 
         private void OnDroneCountChanged(DroneCountChangedEvent evt)
@@ -51,7 +53,7 @@ namespace DronsTeam.Core
             if (evt.NewCount > currentPerFaction)
             {
                 var toAddPerFaction = evt.NewCount - currentPerFaction;
-                _spawner.AddDronesForForts(forts, toAddPerFaction, _avoidanceService, _resourceManager, _vfxManager, _currentSpeed);
+                _spawner.AddDronesForForts(forts, toAddPerFaction, _avoidanceService, _resourceManager, _vfxManager, _currentSpeed, _pathVisualizationEnabled);
             }
             else if (evt.NewCount < currentPerFaction)
             {
@@ -71,6 +73,7 @@ namespace DronsTeam.Core
 
         private void OnPathVisualizationToggle(PathVisualizationToggleEvent evt)
         {
+            _pathVisualizationEnabled = evt.IsEnabled;
             foreach (var drone in _spawner.ActiveDrones)
             {
                 drone.SetDebugPathEnabled(evt.IsEnabled);
